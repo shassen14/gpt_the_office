@@ -49,3 +49,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Data stuff
+*.pkl
+*.bin
+*.txt
