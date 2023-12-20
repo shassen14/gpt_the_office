@@ -6,8 +6,8 @@ import torch
 
 def get_batch(dataset_folder: str,
               dataset_type: str,
-              batch_size: int,
               block_size: int,
+              batch_size: int,
               device_type: str) -> tuple[torch.Tensor, torch.Tensor]:
     # Obtain file path
     # TODO: change if reorganizing files/directories
@@ -17,6 +17,7 @@ def get_batch(dataset_folder: str,
     # save data
     data = np.memmap(file_path, dtype=np.uint16, mode='r')
 
+    # random block chunk generator TODO: figure out what is happening here
     ix = torch.randint(len(data) - block_size, (batch_size,))
     x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
     y = torch.stack([torch.from_numpy((data[i+1:i+1+block_size]).astype(np.int64)) for i in ix])

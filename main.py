@@ -8,10 +8,10 @@ from torch.nn import functional as F
 
 if __name__ == "__main__":
     # testing code stuff
-    utils.get_batch("the_office",
-                    "train.bin",
-                    cfg.batch_size,
-                    cfg.block_size,
-                    "cuda")
+    input, next = utils.get_batch("shakespeare",
+                                  "train.bin",
+                                  cfg.block_size,
+                                  cfg.batch_size,
+                                  cfg.device_type)
 
     print("Hello World!")
