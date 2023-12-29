@@ -1,3 +1,4 @@
 
-batch_size = 12
-block_size = 1024
+batch_size = 4
+block_size = 8
+n_embeddings = 32
