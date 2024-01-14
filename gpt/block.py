@@ -1,7 +1,6 @@
 import gpt.multihead as mh
 import gpt.feedforward as ff
 
-import torch
 import torch.nn as nn
 
 class Block(nn.Module):
