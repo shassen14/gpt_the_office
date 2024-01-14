@@ -8,8 +8,8 @@ import torch
 
 choose_config = 'cfg1'
 
-if choose_config == 'cfg1':
-    import config.cfg1 as cfg
+if choose_config == 'test_cfg':
+    import config.test_cfg as cfg
 
 ############################## Paramaters #####################################
 block_size      = cfg.block_size

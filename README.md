@@ -1,6 +1,6 @@
 # gpt_the_office
 
-A gpt that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from The Office. The first iteration will be utilizing character-wise tokens.
+A gpt that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from The Office. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY)
 
 ## Setting up your environments
 Assumption is you have python3, using pip, and a unix os. This can work in windows, but steps need to be edited a bit.

@@ -17,8 +17,3 @@ class Attention(nn.Module):
         out = torch.cat([h(x) for h in self.heads], dim=-1)
         out = self.dropout(self.proj(out))
         return out
-    
-if __name__ == "__main__":
-
-    Attention(10, 10, 10, 10, 0.2)
-    print("hello")
