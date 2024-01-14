@@ -6,7 +6,12 @@ from torch.nn import functional as F
 
 class Attention(nn.Module):
     """ multiple heads of self-attention in parallel """
-    def __init__(self, block_size, n_embeddings, head_size, num_heads, dropout):
+    def __init__(self,
+                 block_size,
+                 n_embeddings,
+                 head_size,
+                 num_heads,
+                 dropout):
         super().__init__()
         self.heads = nn.ModuleList([sh.Attention(block_size, n_embeddings, head_size, dropout)
                                     for _ in range(num_heads)])
