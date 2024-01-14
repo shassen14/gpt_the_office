@@ -3,7 +3,7 @@ Parameters one can change to have multiple datasets in their local repo
 
 Example urls:
 1. https://raw.githubusercontent.com/shassen14/datasets/main/the_office/script1.txt
-2. https://raw.githubusercontent.com/karpathy/char-rnn/master/data/tinyshakespeare/input.txt
+2. https://raw.githubusercontent.com/shassen14/datasets/main/shakespeare/script.txt
 
 """
 
