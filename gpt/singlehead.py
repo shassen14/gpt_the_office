@@ -16,15 +16,19 @@ class Attention(nn.Module):
     def forward(self, x):
         # input of size (batch, time-step, channels)
         # output of size (batch, time-step, head size)
-        B,T,C = x.shape
+        B, T, C = x.shape # batch size, sequence length, embedding dimensionality
+        
         k = self.key(x)   # (B,T,hs)
         q = self.query(x) # (B,T,hs)
+        v = self.value(x) # (B,T,hs)
+
         # compute attention scores ("affinities")
         weight = q @ k.transpose(-2,-1) * k.shape[-1]**-0.5 # (B, T, hs) @ (B, hs, T) -> (B, T, T)
         weight = weight.masked_fill(self.tril[:T, :T] == 0, float('-inf')) # (B, T, T)
         weight = F.softmax(weight, dim=-1) # (B, T, T)
         weight = self.dropout(weight)
+
         # perform the weightghted aggregation of the values
-        v = self.value(x) # (B,T,hs)
         out = weight @ v # (B, T, T) @ (B, T, hs) -> (B, T, hs)
+        
         return out
