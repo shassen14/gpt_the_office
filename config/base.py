@@ -18,12 +18,17 @@ block_size      = cfg.block_size
 batch_size      = cfg.batch_size
 n_embeddings    = cfg.n_embeddings
 
-head_size       = cfg.head_size
 num_heads       = cfg.num_heads
+head_size       = n_embeddings // num_heads
+
 
 dropout         = cfg.dropout
 
 num_layers      = cfg.num_layers
+
+learning_rate   = cfg.learning_rate
+max_iterations  = cfg.max_iterations
+eval_iterations = int(max_iterations / 10)
 
 
 # get device type. get GPU or apple if possible

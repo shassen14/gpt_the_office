@@ -1,5 +1,4 @@
 import torch.nn as nn
-from torch.nn import functional as F
 
 class FeedForward(nn.Module):
     """ a simple linear layer followed by a non-linearity """
