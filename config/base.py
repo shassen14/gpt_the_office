@@ -11,6 +11,8 @@ choose_config = 'test_cfg'
 if choose_config == 'test_cfg':
     import config.test_cfg as cfg
 
+# TODO: organize and comment
+
 ############################## Paramaters #####################################
 block_size      = cfg.block_size
 batch_size      = cfg.batch_size
@@ -20,6 +22,8 @@ head_size       = cfg.head_size
 num_heads       = cfg.num_heads
 
 dropout         = cfg.dropout
+
+num_layers      = cfg.num_layers
 
 
 # get device type. get GPU or apple if possible
