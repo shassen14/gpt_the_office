@@ -13,6 +13,13 @@ if choose_config == 'test_cfg':
 
 # TODO: organize and comment
 
+# Dataset to utilize
+dataset_dir     = cfg.dataset_dir
+train_file      = cfg.train_file
+val_file        = cfg.val_file
+pkl_file        = cfg.pkl_file
+file_array      = [cfg.train_file, val_file]
+
 ############################## Paramaters #####################################
 block_size      = cfg.block_size
 batch_size      = cfg.batch_size
