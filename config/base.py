@@ -6,7 +6,7 @@ batch_size:
 """
 import torch
 
-choose_config = 'cfg1'
+choose_config = 'test_cfg'
 
 if choose_config == 'test_cfg':
     import config.test_cfg as cfg
