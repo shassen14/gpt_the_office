@@ -1,6 +1,4 @@
-import gpt.multihead as mh
-import gpt.feedforward as ff
-import gpt.block as block
+import gpt.block as b
 
 import torch
 import torch.nn as nn
@@ -22,11 +20,10 @@ class GPT(nn.Module):
         self.device_type = device_type
         self.token_embedding_table = nn.Embedding(vocab_size, n_embeddings)
         self.position_embedding_table = nn.Embedding(block_size, n_embeddings)
-        self.blocks = nn.Sequential(*[block(block_size, n_embeddings, head_size, num_heads, dropout) 
+        self.blocks = nn.Sequential(*[b.Block(block_size, n_embeddings, head_size, num_heads, dropout) 
                                       for _ in range(num_layers)])
         self.ln_f = nn.LayerNorm(n_embeddings) # final layer norm
         self.lm_head = nn.Linear(n_embeddings, vocab_size)
-
 
         # TODO: explain
         self.apply(self._init_weights)
