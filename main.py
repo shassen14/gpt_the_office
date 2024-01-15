@@ -12,20 +12,26 @@ import os
 
 torch.set_printoptions(precision=2, linewidth=100)
 
-# @torch.no_grad()
-# def estimate_loss(model,
-#                   ):
-#     out = {}
-#     model.eval()
-#     for split in ['train.bin', 'val.bin']:
-#         losses = torch.zeros(eval_iters)
-#         for k in range(eval_iters):
-#             X, Y = get_batch(split)
-#             logits, loss = model(X, Y)
-#             losses[k] = loss.item()
-#         out[split] = losses.mean()
-#     model.train()
-#     return out
+# TODO: Add to utils and cleanup
+@torch.no_grad()
+def estimate_loss(model,
+                  eval_iters,
+                  ):
+    out = {}
+    model.eval()
+    for split in ['train.bin', 'val.bin']:
+        losses = torch.zeros(eval_iters)
+        for k in range(eval_iters):
+            X, Y = utils.get_batch('shakespeare',
+                                   split,
+                                   cfg.block_size,
+                                   cfg.batch_size,
+                                   cfg.device_type)
+            logits, loss = model(X, Y)
+            losses[k] = loss.item()
+        out[split] = losses.mean()
+    model.train()
+    return out
 
 if __name__ == "__main__":
     # obtain vocabulary size from pkl
@@ -35,6 +41,8 @@ if __name__ == "__main__":
         with open(pickle_path, 'rb') as f:
             meta = pickle.load(f)
         meta_vocab_size = meta['vocab_size']
+        meta_encode = lambda s: [meta['stoi'][c] for c in s] # encoder: take a string, output a list of integers
+        meta_decode = lambda l: ''.join([meta['itos'][i] for i in l]) # decoder: take a list of integers, output a string
         print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
     else:
         print("pkl file doesn't exist. Please input a valid one.")
@@ -60,6 +68,11 @@ if __name__ == "__main__":
 
     # Iterate max iteration amount of times 
     for i in range(cfg.max_iterations):
+
+        if i % cfg.eval_iterations == 0 or i == cfg.max_iterations - 1:
+            losses = estimate_loss(m, cfg.eval_iterations)
+            print(f"step {i}: train loss {losses['train.bin']:.4f}, val loss {losses['val.bin']:.4f}")
+
         xb, yb = utils.get_batch('shakespeare',
                                  'train.bin',
                                  cfg.block_size,
@@ -71,5 +84,5 @@ if __name__ == "__main__":
         loss.backward()
         optimizer.step()
 
-        if i % cfg.eval_iterations == 0 or i == cfg.max_iterations - 1:
-            print(loss)
+    context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
+    print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))

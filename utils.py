@@ -29,8 +29,18 @@ def get_batch(dataset_folder: str,
 
     return x, y
 
+###############################################################################
+
 def get_dataset_path(dataset_folder: str,
                      dataset_type: str) -> str:
     file_path = os.path.join(os.path.dirname(__file__),
                              "data/" + dataset_folder + "/" + dataset_type)
+    return file_path
+
+###############################################################################
+
+def get_pt_param_path(pt_folder: str,
+                      pt_file: str) -> str:
+    file_path = os.path.join(os.path.dirname(__file__),
+                + pt_folder + "/" + pt_file)
     return file_path
