@@ -37,3 +37,8 @@ This will rather download the dataset or confirm it's already there. One can edi
 
 - [ ] Collect different level of tokens via tiktoken (what gpt2 uses)
 - [ ] Create a gpt model based off of [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
+- [ ] Save parameters
+- [ ] Organize parameters
+- [ ] Organize gpt model directory. might make it one file?
+- [ ] Have a train.py for training and a run.py for running models given parameters
+- [ ] Save parameters midway. Have the ability to resume training if stopped midway
