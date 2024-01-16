@@ -54,3 +54,4 @@ venv.bak/
 *.pkl
 *.bin
 *.txt
+*.pt

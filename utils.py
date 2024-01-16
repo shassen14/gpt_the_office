@@ -11,7 +11,7 @@ def get_batch(dataset_folder: str,
               device_type: str) -> tuple[torch.Tensor, torch.Tensor]:
     # Obtain file path
     # TODO: change if reorganizing files/directories
-    file_path = get_dataset_path(dataset_folder, dataset_type)
+    file_path = get_file_path(dataset_folder, dataset_type)
     
     # save data
     data = np.memmap(file_path, dtype=np.uint16, mode='r')
@@ -31,16 +31,16 @@ def get_batch(dataset_folder: str,
 
 ###############################################################################
 
-def get_dataset_path(dataset_folder: str,
-                     dataset_type: str) -> str:
-    file_path = os.path.join(os.path.dirname(__file__),
-                             "data/" + dataset_folder + "/" + dataset_type)
-    return file_path
+def get_folder_path(folder: str) -> str:
+    folder_path = os.path.join(os.path.dirname(__file__), folder)
+    os.makedirs(folder_path, exist_ok=True)
+
+    return folder_path
 
 ###############################################################################
 
-def get_pt_param_path(pt_folder: str,
-                      pt_file: str) -> str:
-    file_path = os.path.join(os.path.dirname(__file__),
-                + pt_folder + "/" + pt_file)
+def get_file_path(folder: str,
+                  file: str) -> str:
+    file_path = get_folder_path(folder) + '/' + file
     return file_path
+

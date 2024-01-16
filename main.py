@@ -19,10 +19,10 @@ def estimate_loss(model,
                   ):
     out = {}
     model.eval()
-    for split in ['train.bin', 'val.bin']:
+    for split in cfg.file_array:
         losses = torch.zeros(eval_iters)
         for k in range(eval_iters):
-            X, Y = utils.get_batch('shakespeare',
+            X, Y = utils.get_batch(cfg.dataset_dir,
                                    split,
                                    cfg.block_size,
                                    cfg.batch_size,
@@ -35,8 +35,8 @@ def estimate_loss(model,
 
 if __name__ == "__main__":
     # obtain vocabulary size from pkl
-    pickle_path = utils.get_dataset_path('shakespeare',
-                                         'meta.pkl')
+    pickle_path = utils.get_file_path(cfg.dataset_dir,
+                                      cfg.pkl_file)
     if os.path.exists(pickle_path):
         with open(pickle_path, 'rb') as f:
             meta = pickle.load(f)
@@ -45,7 +45,7 @@ if __name__ == "__main__":
         meta_decode = lambda l: ''.join([meta['itos'][i] for i in l]) # decoder: take a list of integers, output a string
         print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
     else:
-        print("pkl file doesn't exist. Please input a valid one.")
+        print(pickle_path + " doesn't exist. Please give a valid one.")
         exit()
 
     # create model using config params
@@ -71,10 +71,10 @@ if __name__ == "__main__":
 
         if i % cfg.eval_iterations == 0 or i == cfg.max_iterations - 1:
             losses = estimate_loss(m, cfg.eval_iterations)
-            print(f"step {i}: train loss {losses['train.bin']:.4f}, val loss {losses['val.bin']:.4f}")
+            print(f"step {i}: train loss {losses[cfg.train_file]:.4f}, val loss {losses[cfg.val_file]:.4f}")
 
-        xb, yb = utils.get_batch('shakespeare',
-                                 'train.bin',
+        xb, yb = utils.get_batch(cfg.dataset_dir,
+                                 cfg.train_file,
                                  cfg.block_size,
                                  cfg.batch_size,
                                  cfg.device_type)
@@ -84,5 +84,18 @@ if __name__ == "__main__":
         loss.backward()
         optimizer.step()
 
-    context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
-    print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+    pt_path = utils.get_file_path('params', 'bob.pt')
+    bob = {
+        'model': m.state_dict(),
+        'optimizer': optimizer.state_dict(),
+        # 'model_args': model_args,
+        # 'iter_num': iter_num,
+        # 'best_val_loss': best_val_loss,
+        # 'config': config
+    }
+
+    torch.save(bob, pt_path)
+    
+    # context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
+    # print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+    # open('more.txt', 'w').write(meta_decode(m.generate(context, max_new_tokens=30000)[0].tolist()))
