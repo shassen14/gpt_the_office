@@ -51,6 +51,5 @@ env.bak/
 venv.bak/
 
 # Data stuff
-*.pkl
-*.bin
+data/*
 *.pt
