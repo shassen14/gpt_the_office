@@ -6,18 +6,17 @@ train_file = 'train.bin'
 val_file = 'val.bin'
 pkl_file = 'meta.pkl'
 
+# params
+
+
 # Model
 batch_size = 64
 block_size = 256
-n_embeddings = 384
-
-
-## multihead
+num_embeddings = 384
 num_heads = 6
 num_layers = 6
-
 dropout = 0.2
 
+# Learning
 learning_rate = 3e-4
-max_iterations = 10
-
+max_iterations = 2000

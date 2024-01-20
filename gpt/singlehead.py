@@ -4,11 +4,11 @@ from torch.nn import functional as F
 
 class Attention(nn.Module):
     """ one head of self-attention """
-    def __init__(self, block_size, n_embeddings, head_size, dropout):
+    def __init__(self, block_size, num_embeddings, head_size, dropout):
         super().__init__()
-        self.key = nn.Linear(n_embeddings, head_size, bias=False)
-        self.query = nn.Linear(n_embeddings, head_size, bias=False)
-        self.value = nn.Linear(n_embeddings, head_size, bias=False)
+        self.key = nn.Linear(num_embeddings, head_size, bias=False)
+        self.query = nn.Linear(num_embeddings, head_size, bias=False)
+        self.value = nn.Linear(num_embeddings, head_size, bias=False)
         self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
 
         self.dropout = nn.Dropout(dropout)

@@ -23,10 +23,10 @@ file_array      = [cfg.train_file, val_file]
 ############################## Paramaters #####################################
 block_size      = cfg.block_size
 batch_size      = cfg.batch_size
-n_embeddings    = cfg.n_embeddings
+num_embeddings    = cfg.num_embeddings
 
 num_heads       = cfg.num_heads
-head_size       = n_embeddings // num_heads
+head_size       = num_embeddings // num_heads
 
 
 dropout         = cfg.dropout

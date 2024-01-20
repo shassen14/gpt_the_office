@@ -8,14 +8,14 @@ class Attention(nn.Module):
     """ multiple heads of self-attention in parallel """
     def __init__(self,
                  block_size,
-                 n_embeddings,
+                 num_embeddings,
                  head_size,
                  num_heads,
                  dropout):
         super().__init__()
-        self.heads = nn.ModuleList([sh.Attention(block_size, n_embeddings, head_size, dropout)
+        self.heads = nn.ModuleList([sh.Attention(block_size, num_embeddings, head_size, dropout)
                                     for _ in range(num_heads)])
-        self.proj = nn.Linear(head_size * num_heads, n_embeddings)
+        self.proj = nn.Linear(head_size * num_heads, num_embeddings)
         self.dropout = nn.Dropout(dropout)
 
     def forward(self, x):

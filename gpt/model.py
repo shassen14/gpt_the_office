@@ -10,7 +10,7 @@ class GPT(nn.Module):
                  vocab_size,
                  num_layers,
                  block_size,
-                 n_embeddings,
+                 num_embeddings,
                  head_size,
                  num_heads,
                  dropout,
@@ -18,12 +18,12 @@ class GPT(nn.Module):
         super().__init__()
         self.block_size = block_size
         self.device_type = device_type
-        self.token_embedding_table = nn.Embedding(vocab_size, n_embeddings)
-        self.position_embedding_table = nn.Embedding(block_size, n_embeddings)
-        self.blocks = nn.Sequential(*[b.Block(block_size, n_embeddings, head_size, num_heads, dropout) 
+        self.token_embedding_table = nn.Embedding(vocab_size, num_embeddings)
+        self.position_embedding_table = nn.Embedding(block_size, num_embeddings)
+        self.blocks = nn.Sequential(*[b.Block(block_size, num_embeddings, head_size, num_heads, dropout) 
                                       for _ in range(num_layers)])
-        self.ln_f = nn.LayerNorm(n_embeddings) # final layer norm
-        self.lm_head = nn.Linear(n_embeddings, vocab_size)
+        self.ln_f = nn.LayerNorm(num_embeddings) # final layer norm
+        self.lm_head = nn.Linear(num_embeddings, vocab_size)
 
         # TODO: explain
         self.apply(self._init_weights)

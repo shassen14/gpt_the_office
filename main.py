@@ -15,8 +15,7 @@ torch.set_printoptions(precision=2, linewidth=100)
 # TODO: Add to utils and cleanup
 @torch.no_grad()
 def estimate_loss(model,
-                  eval_iters,
-                  ):
+                  eval_iters):
     out = {}
     model.eval()
     for split in cfg.file_array:
@@ -53,7 +52,7 @@ if __name__ == "__main__":
     model = gm.GPT(meta_vocab_size,
                    cfg.num_layers,
                    cfg.block_size,
-                   cfg.n_embeddings,
+                   cfg.num_embeddings,
                    cfg.head_size,
                    cfg.num_heads,
                    cfg.dropout,
@@ -88,14 +87,14 @@ if __name__ == "__main__":
     bob = {
         'model': m.state_dict(),
         'optimizer': optimizer.state_dict(),
+        'config': cfg,
         # 'model_args': model_args,
-        # 'iter_num': iter_num,
+        # 'iteration': i,
         # 'best_val_loss': best_val_loss,
-        # 'config': config
     }
 
     torch.save(bob, pt_path)
     
-    # context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
-    # print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))
-    # open('more.txt', 'w').write(meta_decode(m.generate(context, max_new_tokens=30000)[0].tolist()))
+    context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
+    print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+    # open('example.txt', 'w').write(meta_decode(m.generate(context, max_new_tokens=30000)[0].tolist()))
