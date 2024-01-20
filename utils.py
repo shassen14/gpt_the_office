@@ -26,7 +26,6 @@ def get_batch(dataset_folder: str,
         x, y = x.pin_memory().to(device_type, non_blocking=True), y.pin_memory().to(device_type, non_blocking=True)
     else:
         x, y = x.to(device_type), y.to(device_type)
-
     return x, y
 
 ###############################################################################
@@ -34,7 +33,6 @@ def get_batch(dataset_folder: str,
 def get_folder_path(folder: str) -> str:
     folder_path = os.path.join(os.path.dirname(__file__), folder)
     os.makedirs(folder_path, exist_ok=True)
-
     return folder_path
 
 ###############################################################################
@@ -44,3 +42,23 @@ def get_file_path(folder: str,
     file_path = get_folder_path(folder) + '/' + file
     return file_path
 
+###############################################################################
+
+@torch.no_grad()
+def estimate_loss(model,
+                  config):
+    out = {}
+    model.eval()
+    for split in config.file_array:
+        losses = torch.zeros(config.eval_iterations)
+        for k in range(config.eval_iterations):
+            X, Y = get_batch(config.dataset_dir,
+                             split,
+                             config.block_size,
+                             config.batch_size,
+                             config.device_type)
+            logits, loss = model(X, Y)
+            losses[k] = loss.item()
+        out[split] = losses.mean()
+    model.train()
+    return out

@@ -12,25 +12,7 @@ import os
 
 torch.set_printoptions(precision=2, linewidth=100)
 
-# TODO: Add to utils and cleanup
-@torch.no_grad()
-def estimate_loss(model,
-                  eval_iters):
-    out = {}
-    model.eval()
-    for split in cfg.file_array:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
-            X, Y = utils.get_batch(cfg.dataset_dir,
-                                   split,
-                                   cfg.block_size,
-                                   cfg.batch_size,
-                                   cfg.device_type)
-            logits, loss = model(X, Y)
-            losses[k] = loss.item()
-        out[split] = losses.mean()
-    model.train()
-    return out
+
 
 if __name__ == "__main__":
     # obtain file paths
@@ -60,19 +42,19 @@ if __name__ == "__main__":
                    cfg.num_heads,
                    cfg.dropout,
                    cfg.device_type)
-    m = model.to(cfg.device_type)
+    model.to(cfg.device_type)
 
     # print the number of parameters in the model
-    print(sum(p.numel() for p in m.parameters())/1e6, 'million parameters')
+    print(sum(p.numel() for p in model.parameters())/1e6, 'million parameters')
 
     # create a PyTorch optimizer
     optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.learning_rate)
 
-    # Iterate max iteration amount of times 
+    # iterate max iteration amount of times 
     for i in range(cfg.max_iterations):
 
         if i % cfg.eval_iterations == 0 or i == cfg.max_iterations - 1:
-            losses = estimate_loss(m, cfg.eval_iterations)
+            losses = utils.estimate_loss(model, cfg)
             print(f"step {i}: train loss {losses[cfg.train_file]:.4f}, val loss {losses[cfg.val_file]:.4f}")
 
         xb, yb = utils.get_batch(cfg.dataset_dir,
@@ -81,21 +63,22 @@ if __name__ == "__main__":
                                  cfg.batch_size,
                                  cfg.device_type)
         
-        logits, loss = m(xb, yb)
+        logits, loss = model(xb, yb)
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
 
-        bob = {
+        # save model
+        torch_model = {
             'iteration': i,
-            'model': m.state_dict(),
+            'model': model.state_dict(),
             'optimizer': optimizer.state_dict(),
             # 'config': cfg,
             # 'model_args': model_args,
             # 'best_val_loss': best_val_loss,
         }
-        torch.save(bob, pt_path)
+        torch.save(torch_model, pt_path)
     
     context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
-    print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+    print(meta_decode(model.generate(context, max_new_tokens=500)[0].tolist()))
     # open('example.txt', 'w').write(meta_decode(m.generate(context, max_new_tokens=30000)[0].tolist()))
