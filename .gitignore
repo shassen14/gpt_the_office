@@ -53,5 +53,4 @@ venv.bak/
 # Data stuff
 *.pkl
 *.bin
-*.txt
 *.pt
