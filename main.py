@@ -33,9 +33,12 @@ def estimate_loss(model,
     return out
 
 if __name__ == "__main__":
-    # obtain vocabulary size from pkl
+    # obtain file paths
     pickle_path = utils.get_file_path(cfg.dataset_dir,
                                       cfg.pkl_file)
+    pt_path = utils.get_file_path(cfg.param_dir, cfg.pt_file)
+
+    # obtain vocabulary size from pkl
     if os.path.exists(pickle_path):
         with open(pickle_path, 'rb') as f:
             meta = pickle.load(f)
@@ -83,17 +86,15 @@ if __name__ == "__main__":
         loss.backward()
         optimizer.step()
 
-    pt_path = utils.get_file_path('params', 'bob.pt')
-    bob = {
-        'model': m.state_dict(),
-        'optimizer': optimizer.state_dict(),
-        'config': cfg,
-        # 'model_args': model_args,
-        # 'iteration': i,
-        # 'best_val_loss': best_val_loss,
-    }
-
-    torch.save(bob, pt_path)
+        bob = {
+            'iteration': i,
+            'model': m.state_dict(),
+            'optimizer': optimizer.state_dict(),
+            # 'config': cfg,
+            # 'model_args': model_args,
+            # 'best_val_loss': best_val_loss,
+        }
+        torch.save(bob, pt_path)
     
     context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
     print(meta_decode(m.generate(context, max_new_tokens=500)[0].tolist()))

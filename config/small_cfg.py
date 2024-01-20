@@ -8,16 +8,16 @@ pkl_file = 'meta.pkl'
 
 # params
 param_dir = 'params'
-pt_file = 'test_cfg.pt'
+pt_file = 'small_cfg.pt'
 
 # Model
-batch_size = 64
-block_size = 256
-num_embeddings = 384
+batch_size = 4
+block_size = 8
+num_embeddings = 32
 num_heads = 6
 num_layers = 6
 dropout = 0.2
 
 # Learning
-learning_rate = 3e-4
-max_iterations = 2000
+learning_rate = 3e-3
+max_iterations = 1000
