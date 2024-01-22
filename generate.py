@@ -26,6 +26,7 @@ if __name__ == '__main__':
     model.to(cfg.device_type)
     torch_model = torch.load(pt_path)
     model.load_state_dict(torch_model['model'])
+    model.eval()
 
     # TODO: read from a context file if given one and use that as the start
     start = '\n'

@@ -2,12 +2,9 @@ import utils
 import config.base as cfg
 import gpt.model as gm
 
-import pickle
-import numpy as np
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-import os
 
 torch.set_printoptions(precision=2, linewidth=100)
 
@@ -77,4 +74,3 @@ if __name__ == "__main__":
     # sample text output in the terminal
     context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
     print(meta_decode(model.generate(context, max_new_tokens=500)[0].tolist()))
-    # open('example.txt', 'w').write(meta_decode(m.generate(context, max_new_tokens=30000)[0].tolist()))

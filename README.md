@@ -1,9 +1,14 @@
 # gpt_the_office
 
-A gpt that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from The Office. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY)
+A gpt that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from `The Office`. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY)
 
-## Setting up your environments
-Assumption is you have python3, using pip, and a unix os. This can work in windows, but steps need to be edited a bit.
+## Setting up the environment
+Assumption is you have python3, using pip, and a linux os.
+1. `gh repo clone shassen14/gpt_the_office` (or however you would like to clone the repo)
+2. `cd gpt_the_office`
+3. `sh set_environment.sh` or `bash set_environment.sh`
+
+If one is not running linux, then do something similar to the following:
 1. `gh repo clone shassen14/gpt_the_office` (or however you would like to clone the repo)
 2. `cd gpt_the_office`
 3. `pip3 install virtualenv` (if you don't already have virtualenv installed)
@@ -36,9 +41,13 @@ This will rather download the dataset or confirm it's already there. One can edi
 ## Future Plans
 
 - [ ] Collect different level of tokens via tiktoken (what gpt2 uses)
-- [ ] Create a gpt model based off of [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
-- [ ] Save parameters
+- [x] Create a gpt model based off of [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
+- [x] Save parameters
 - [ ] Organize parameters
 - [ ] Organize gpt model directory. might make it one file?
-- [ ] Have a train.py for training and a run.py for running models given parameters
+- [x] Have a train.py for training and a generate.py for running models given parameters
+- [ ] Need to rename main.py to something else
 - [ ] Save parameters midway. Have the ability to resume training if stopped midway
+- [ ] need better visualization
+- [ ] simplify environment setup
+- [ ] might include docker as well for environment setup?
