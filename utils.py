@@ -42,11 +42,25 @@ def get_file_path(folder: str,
     file_path = get_folder_path(folder) + '/' + file
     return file_path
 
+
+def abstract_pickle(pickle_path: str):
+    # obtain vocabulary size from pkl
+    if os.path.exists(pickle_path):
+        with open(pickle_path, 'rb') as f:
+            meta = pickle.load(f)
+        meta_vocab_size = meta['vocab_size']
+        meta_encode = lambda s: [meta['stoi'][c] for c in s] # encoder: take a string, output a list of integers
+        meta_decode = lambda l: ''.join([meta['itos'][i] for i in l]) # decoder: take a list of integers, output a string
+        print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
+        return meta_vocab_size, meta_encode, meta_decode
+    else:
+        print(pickle_path + " doesn't exist. Please give a valid pkl file.")
+        exit()
 ###############################################################################
 
 @torch.no_grad()
 def estimate_loss(model,
-                  config):
+                  config) -> dict:
     out = {}
     model.eval()
     for split in config.file_array:

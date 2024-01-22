@@ -7,12 +7,14 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
-
 import os
 
 torch.set_printoptions(precision=2, linewidth=100)
 
-
+"""
+Purpose is to train language models, save the model, and then generate a sample text
+to the terminal
+"""
 
 if __name__ == "__main__":
     # obtain file paths
@@ -20,17 +22,8 @@ if __name__ == "__main__":
                                       cfg.pkl_file)
     pt_path = utils.get_file_path(cfg.param_dir, cfg.pt_file)
 
-    # obtain vocabulary size from pkl
-    if os.path.exists(pickle_path):
-        with open(pickle_path, 'rb') as f:
-            meta = pickle.load(f)
-        meta_vocab_size = meta['vocab_size']
-        meta_encode = lambda s: [meta['stoi'][c] for c in s] # encoder: take a string, output a list of integers
-        meta_decode = lambda l: ''.join([meta['itos'][i] for i in l]) # decoder: take a list of integers, output a string
-        print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
-    else:
-        print(pickle_path + " doesn't exist. Please give a valid one.")
-        exit()
+    # obtain metadata from pkl
+    meta_vocab_size, meta_encode, meta_decode = utils.abstract_pickle(pickle_path)
 
     # create model using config params
     # convert model to the device. important if using cuda
@@ -52,33 +45,36 @@ if __name__ == "__main__":
 
     # iterate max iteration amount of times 
     for i in range(cfg.max_iterations):
-
+        # print loss ever so often to check our model's progress
+        # save our model and optimzer ever so often
         if i % cfg.eval_iterations == 0 or i == cfg.max_iterations - 1:
             losses = utils.estimate_loss(model, cfg)
             print(f"step {i}: train loss {losses[cfg.train_file]:.4f}, val loss {losses[cfg.val_file]:.4f}")
+            # save model
+            torch_model = {
+                'iteration': i,
+                'model': model.state_dict(),
+                'optimizer': optimizer.state_dict(),
+                # 'config': cfg,
+                # 'model_args': model_args,
+                # 'best_val_loss': best_val_loss,
+            }
+            torch.save(torch_model, pt_path)
 
+        # get batch to train on using context length and batch size
         xb, yb = utils.get_batch(cfg.dataset_dir,
                                  cfg.train_file,
                                  cfg.block_size,
                                  cfg.batch_size,
                                  cfg.device_type)
         
+        # train model with a single step of backward propagation
         logits, loss = model(xb, yb)
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
-
-        # save model
-        torch_model = {
-            'iteration': i,
-            'model': model.state_dict(),
-            'optimizer': optimizer.state_dict(),
-            # 'config': cfg,
-            # 'model_args': model_args,
-            # 'best_val_loss': best_val_loss,
-        }
-        torch.save(torch_model, pt_path)
     
+    # sample text output in the terminal
     context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
     print(meta_decode(model.generate(context, max_new_tokens=500)[0].tolist()))
     # open('example.txt', 'w').write(meta_decode(m.generate(context, max_new_tokens=30000)[0].tolist()))
