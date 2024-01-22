@@ -10,6 +10,11 @@ pkl_file = 'meta.pkl'
 param_dir = 'params'
 pt_file = 'test_cfg.pt'
 
+# generate sample
+sample_dir = 'examples'
+sample_file = 'shakespeare_text1.txt'
+max_new_tokens = 1000
+
 # Model
 batch_size = 64
 block_size = 256

@@ -58,6 +58,7 @@ class GPT(nn.Module):
 
         return logits, loss  
 
+    @torch.no_grad()
     def generate(self, idx, max_new_tokens):
         # idx is (B, T) array of indices in the current context
         for _ in range(max_new_tokens):
