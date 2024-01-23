@@ -1,6 +1,6 @@
 import utils
 import config.base as cfg
-import gpt.model as gm
+from models import self_attention as sa
 
 import torch
 import torch.nn as nn
@@ -24,14 +24,14 @@ if __name__ == "__main__":
 
     # create model using config params
     # convert model to the device. important if using cuda
-    model = gm.GPT(meta_vocab_size,
-                   cfg.num_layers,
-                   cfg.block_size,
-                   cfg.num_embeddings,
-                   cfg.head_size,
-                   cfg.num_heads,
-                   cfg.dropout,
-                   cfg.device_type)
+    model = sa.Model(meta_vocab_size,
+                     cfg.num_layers,
+                     cfg.block_size,
+                     cfg.num_embeddings,
+                     cfg.head_size,
+                     cfg.num_heads,
+                     cfg.dropout,
+                     cfg.device_type)
     model.to(cfg.device_type)
 
     # print the number of parameters in the model

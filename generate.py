@@ -1,6 +1,6 @@
 import utils
 import config.base as cfg
-import gpt.model as gm
+from models import self_attention as sa
 
 import torch
 
@@ -15,14 +15,14 @@ if __name__ == '__main__':
     meta_vocab_size, meta_encode, meta_decode = utils.abstract_pickle(pickle_path)
 
     # obtain model and optimizer
-    model = gm.GPT(meta_vocab_size,
-                   cfg.num_layers,
-                   cfg.block_size,
-                   cfg.num_embeddings,
-                   cfg.head_size,
-                   cfg.num_heads,
-                   cfg.dropout,
-                   cfg.device_type)
+    model = sa.Model(meta_vocab_size,
+                     cfg.num_layers,
+                     cfg.block_size,
+                     cfg.num_embeddings,
+                     cfg.head_size,
+                     cfg.num_heads,
+                     cfg.dropout,
+                     cfg.device_type)
     model.to(cfg.device_type)
     torch_model = torch.load(pt_path)
     model.load_state_dict(torch_model['model'])
