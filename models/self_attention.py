@@ -53,7 +53,6 @@ class MultiHead(nn.Module):
     
 class FeedForward(nn.Module):
     """ a simple linear layer followed by a non-linearity """
-
     def __init__(self, num_embeddings, dropout):
         super().__init__()
         self.network = nn.Sequential(
@@ -68,7 +67,6 @@ class FeedForward(nn.Module):
 
 class Block(nn.Module):
     """ Transformer block: communication followed by computation """
-
     def __init__(self,
                  block_size,
                  num_embeddings,

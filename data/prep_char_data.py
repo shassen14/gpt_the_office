@@ -73,5 +73,5 @@ with open(input_folder_path + '/' + dc.pkl_file_name, 'wb') as f:
 # all the unique characters:
 #  !$&',-.3:;?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
 # vocab size: 65
-# train has 1003854 tokens
-# val has 111540 tokens
+# train has 1,003,854 tokens
+# val has 111,540 tokens

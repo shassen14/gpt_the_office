@@ -12,7 +12,7 @@ else
   echo "Installed"
 fi
 
-# check for virtualenv and install if not installed
+# check for pip package virtualenv and install if not installed
 REQUIRED_VENV="virtualenv"
 VENV_OK=$(pip list | grep $REQUIRED_VENV)
 echo -n "Checking for $REQUIRED_VENV: "
