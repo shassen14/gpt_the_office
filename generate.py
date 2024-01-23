@@ -35,5 +35,11 @@ if __name__ == '__main__':
 
     with torch.no_grad():
         print('Generating text and writing to ' + sample_path)
-        output_ids = model.generate(x, max_new_tokens=cfg.max_new_tokens)[0].tolist()
-        open(sample_path, 'w').write(meta_decode(output_ids))
+        print(meta_decode(start_ids), end ="")
+        open(sample_path, 'w').write(meta_decode(start_ids))
+        for _ in range(cfg.max_new_tokens):
+            x, x_next = model.generate2(x)
+            token = meta_decode(x_next[0].tolist())
+            print(token, end = "")
+            open(sample_path, 'a').write(token)
+    print()

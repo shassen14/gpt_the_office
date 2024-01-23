@@ -157,3 +157,23 @@ class Model(nn.Module):
             # append sampled index to the running sequence
             idx = torch.cat((idx, idx_next), dim=1) # (B, T+1)
         return idx
+    
+    @torch.no_grad()
+    def generate2(self, idx):
+        # idx is (B, T) array of indices in the current context
+
+        # crop idx to the last block_size tokens
+        idx_cond = idx[:, -self.block_size:]
+
+        logits, loss = self(idx_cond)
+        # focus only on the last time step
+        logits = logits[:, -1, :] # becomes (B, C)
+        # apply softmax to get probabilities
+        probs = F.softmax(logits, dim=-1) # (B, C)
+        # sample from the distribution
+        idx_next = torch.multinomial(probs, num_samples=1) # (B, 1)
+
+        # append sampled index to the running sequence
+        idx = torch.cat((idx_cond, idx_next), dim=1) # (B, T+1)
+
+        return idx, idx_next
