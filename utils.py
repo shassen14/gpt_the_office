@@ -1,6 +1,7 @@
 import os
 import pickle
 
+import tiktoken
 import numpy as np
 import torch
 
@@ -49,8 +50,13 @@ def abstract_pickle(pickle_path: str):
         with open(pickle_path, 'rb') as f:
             meta = pickle.load(f)
         meta_vocab_size = meta['vocab_size']
-        meta_encode = lambda s: [meta['stoi'][c] for c in s] # encoder: take a string, output a list of integers
-        meta_decode = lambda l: ''.join([meta['itos'][i] for i in l]) # decoder: take a list of integers, output a string
+        if(meta['is_tiktoken']):
+            enc = tiktoken.get_encoding(meta['tiktoken_model'])
+            meta_encode = lambda s: enc.encode(s, allowed_special={"<|endoftext|>"}) # encoder: take a string, output a list of integers
+            meta_decode = lambda l: enc.decode(l) # decoder: take a list of integers, output a string
+        else:
+            meta_encode = lambda s: [meta['stoi'][c] for c in s] # encoder: take a string, output a list of integers
+            meta_decode = lambda l: ''.join([meta['itos'][i] for i in l]) # decoder: take a list of integers, output a string
         print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
         return meta_vocab_size, meta_encode, meta_decode
     else:

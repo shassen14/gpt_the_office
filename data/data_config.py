@@ -7,9 +7,9 @@ Example urls:
 
 """
 
-folder_name = 'the_office'
+folder_name = 'shakespeare'
 script_file_name = 'script.txt' 
-url = 'https://raw.githubusercontent.com/shassen14/datasets/master/the_office/script1.txt'
+url = 'https://raw.githubusercontent.com/shassen14/datasets/main/shakespeare/script.txt'
 train_file_name = 'train.bin'
 val_file_name = 'val.bin'
 pkl_file_name = 'meta.pkl'

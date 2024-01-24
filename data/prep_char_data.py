@@ -10,9 +10,12 @@ import pickle
 import requests
 import numpy as np
 
+# Variable to pass through to say not using tiktoken
+is_tiktoken = False
+
 # download the desired dataset
 # obtain folder and file path
-input_folder_path = os.path.join(os.path.dirname(__file__), dc.folder_name)
+input_folder_path = os.path.join(os.path.dirname(__file__), dc.folder_name + '_char')
 input_file_path = input_folder_path + '/' + dc.script_file_name
 
 # create folder directory if none exists
@@ -34,7 +37,7 @@ vocab_size = len(chars)
 print('all the unique characters:', ''.join(chars))
 print(f'vocab size: {vocab_size:,}')
 
-# create a mapping from characters to integers
+# create a mapping from characters to integers and integers to characters
 stoi = { ch:i for i,ch in enumerate(chars) }
 itos = { i:ch for i,ch in enumerate(chars) }
 def encode(s):
@@ -61,6 +64,7 @@ val_ids.tofile(input_folder_path + '/' + dc.val_file_name)
 
 # save the meta information as well, to help us encode/decode later
 meta = {
+    'is_tiktoken': is_tiktoken,
     'vocab_size': vocab_size,
     'itos': itos,
     'stoi': stoi,
