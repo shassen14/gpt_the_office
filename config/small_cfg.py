@@ -12,7 +12,7 @@ pt_file = 'small_cfg.pt'
 
 # generate sample
 sample_dir = 'examples'
-sample_file = 'shakespeare_text1.txt'
+sample_file = 'shakespeare_small_cfg_example.txt'
 max_new_tokens = 1000
 
 # Model

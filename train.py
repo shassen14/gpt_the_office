@@ -46,7 +46,7 @@ if __name__ == "__main__":
         # save our model and optimzer ever so often
         if i % cfg.eval_iterations == 0 or i == cfg.max_iterations - 1:
             losses = utils.estimate_loss(model, cfg)
-            print(f"step {i}: train loss {losses[cfg.train_file]:.4f}, val loss {losses[cfg.val_file]:.4f}")
+            print(f"\nstep {i}: train loss {losses[cfg.train_file]:.4f}, val loss {losses[cfg.val_file]:.4f}\n")
             # save model
             torch_model = {
                 'iteration': i,
@@ -57,6 +57,9 @@ if __name__ == "__main__":
                 # 'best_val_loss': best_val_loss,
             }
             torch.save(torch_model, pt_path)
+            # example generation
+            context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
+            print(meta_decode(model.generate(context, max_new_tokens=200)[0].tolist()))
 
         # get batch to train on using context length and batch size
         xb, yb = utils.get_batch(cfg.dataset_dir,
@@ -70,7 +73,3 @@ if __name__ == "__main__":
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
-    
-    # sample text output in the terminal
-    context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
-    print(meta_decode(model.generate(context, max_new_tokens=500)[0].tolist()))
