@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # virtual environment name. Change name if so desired
 VIRTUAL_ENVIRONMENT_DIR="venv"
 
