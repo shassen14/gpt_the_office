@@ -5,28 +5,25 @@ import tiktoken
 import numpy as np
 import torch
 
-def get_batch(dataset_folder: str,
-              dataset_type: str,
-              block_size: int,
-              batch_size: int,
-              device_type: str) -> tuple[torch.Tensor, torch.Tensor]:
+def get_batch(cfg,
+              dataset_type: str) -> tuple[torch.Tensor, torch.Tensor]:
     # Obtain file path
     # TODO: change if reorganizing files/directories
-    file_path = get_file_path(dataset_folder, dataset_type)
+    file_path = get_file_path(cfg.dataset_dir, dataset_type)
     
     # save data
     data = np.memmap(file_path, dtype=np.uint16, mode='r')
 
     # random block chunk generator TODO: figure out what is happening here
-    ix = torch.randint(len(data) - block_size, (batch_size,))
-    x = torch.stack([torch.from_numpy((data[i:i+block_size]).astype(np.int64)) for i in ix])
-    y = torch.stack([torch.from_numpy((data[i+1:i+1+block_size]).astype(np.int64)) for i in ix])
+    ix = torch.randint(len(data) - cfg.block_size, (cfg.batch_size,))
+    x = torch.stack([torch.from_numpy((data[i:i+cfg.block_size]).astype(np.int64)) for i in ix])
+    y = torch.stack([torch.from_numpy((data[i+1:i+1+cfg.block_size]).astype(np.int64)) for i in ix])
 
-    if device_type == 'cuda':
+    if cfg.device_type == 'cuda':
         # pin arrays x,y, which allows us to move them to GPU asynchronously (non_blocking=True)
-        x, y = x.pin_memory().to(device_type, non_blocking=True), y.pin_memory().to(device_type, non_blocking=True)
+        x, y = x.pin_memory().to(cfg.device_type, non_blocking=True), y.pin_memory().to(cfg.device_type, non_blocking=True)
     else:
-        x, y = x.to(device_type), y.to(device_type)
+        x, y = x.to(cfg.device_type), y.to(cfg.device_type)
     return x, y
 
 ###############################################################################
@@ -62,21 +59,17 @@ def abstract_pickle(pickle_path: str):
     else:
         print(pickle_path + " doesn't exist. Please give a valid pkl file.")
         exit()
+        
 ###############################################################################
 
 @torch.no_grad()
-def estimate_loss(model,
-                  config) -> dict:
+def estimate_loss(model, cfg) -> dict:
     out = {}
     model.eval()
-    for split in config.file_array:
-        losses = torch.zeros(config.eval_iterations)
-        for k in range(config.eval_iterations):
-            X, Y = get_batch(config.dataset_dir,
-                             split,
-                             config.block_size,
-                             config.batch_size,
-                             config.device_type)
+    for split in cfg.file_array:
+        losses = torch.zeros(cfg.eval_iterations)
+        for k in range(cfg.eval_iterations):
+            X, Y = get_batch(cfg, split)
             logits, loss = model(X, Y)
             losses[k] = loss.item()
         out[split] = losses.mean()

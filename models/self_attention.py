@@ -4,13 +4,13 @@ from torch.nn import functional as F
 
 class SingleHead(nn.Module):
     """ one head of self-attention """
-    def __init__(self, block_size, num_embeddings, head_size, dropout):
+    def __init__(self, cfg):
         super().__init__()
-        self.key = nn.Linear(num_embeddings, head_size, bias=False)
-        self.query = nn.Linear(num_embeddings, head_size, bias=False)
-        self.value = nn.Linear(num_embeddings, head_size, bias=False)
-        self.register_buffer('tril', torch.tril(torch.ones(block_size, block_size)))
-        self.dropout = nn.Dropout(dropout)
+        self.key = nn.Linear(cfg.num_embeddings, cfg.head_size, bias=False)
+        self.query = nn.Linear(cfg.num_embeddings, cfg.head_size, bias=False)
+        self.value = nn.Linear(cfg.num_embeddings, cfg.head_size, bias=False)
+        self.register_buffer('tril', torch.tril(torch.ones(cfg.block_size, cfg.block_size)))
+        self.dropout = nn.Dropout(cfg.dropout)
 
     def forward(self, x):
         # input of size (batch, time-step, channels)
@@ -34,17 +34,12 @@ class SingleHead(nn.Module):
     
 class MultiHead(nn.Module):
     """ multiple heads of self-attention in parallel """
-    def __init__(self,
-                 block_size,
-                 num_embeddings,
-                 head_size,
-                 num_heads,
-                 dropout):
+    def __init__(self, cfg):
         super().__init__()
-        self.heads = nn.ModuleList([SingleHead(block_size, num_embeddings, head_size, dropout)
-                                    for _ in range(num_heads)])
-        self.proj = nn.Linear(head_size * num_heads, num_embeddings)
-        self.dropout = nn.Dropout(dropout)
+        self.heads = nn.ModuleList([SingleHead(cfg)
+                                    for _ in range(cfg.num_heads)])
+        self.proj = nn.Linear(cfg.head_size * cfg.num_heads, cfg.num_embeddings)
+        self.dropout = nn.Dropout(cfg.dropout)
 
     def forward(self, x):
         out = torch.cat([h(x) for h in self.heads], dim=-1)
@@ -53,13 +48,13 @@ class MultiHead(nn.Module):
     
 class FeedForward(nn.Module):
     """ a simple linear layer followed by a non-linearity """
-    def __init__(self, num_embeddings, dropout):
+    def __init__(self, cfg):
         super().__init__()
         self.network = nn.Sequential(
-            nn.Linear(num_embeddings, 4 * num_embeddings),
+            nn.Linear(cfg.num_embeddings, 4 * cfg.num_embeddings),
             nn.ReLU(),
-            nn.Linear(4 * num_embeddings, num_embeddings),
-            nn.Dropout(dropout),
+            nn.Linear(4 * cfg.num_embeddings, cfg.num_embeddings),
+            nn.Dropout(cfg.dropout),
         )
 
     def forward(self, x):
@@ -67,19 +62,13 @@ class FeedForward(nn.Module):
 
 class Block(nn.Module):
     """ Transformer block: communication followed by computation """
-    def __init__(self,
-                 block_size,
-                 num_embeddings,
-                 head_size,
-                 num_heads,
-                 dropout):
+    def __init__(self, cfg):
         # num_embeddings: embedding dimension, n_head: the number of heads we'd like
         super().__init__()
-        head_size = num_embeddings // num_heads
-        self.sa = MultiHead(block_size, num_embeddings, head_size, num_heads, dropout)
-        self.ffwd = FeedForward(num_embeddings, dropout)
-        self.ln1 = nn.LayerNorm(num_embeddings)
-        self.ln2 = nn.LayerNorm(num_embeddings)
+        self.sa = MultiHead(cfg)
+        self.ffwd = FeedForward(cfg)
+        self.ln1 = nn.LayerNorm(cfg.num_embeddings)
+        self.ln2 = nn.LayerNorm(cfg.num_embeddings)
 
     def forward(self, x):
         x = x + self.sa(self.ln1(x))
@@ -88,24 +77,16 @@ class Block(nn.Module):
 
 class Model(nn.Module):
     """" TODO: Description here"""
-    def __init__(self,
-                 vocab_size,
-                 num_layers,
-                 block_size,
-                 num_embeddings,
-                 head_size,
-                 num_heads,
-                 dropout,
-                 device_type: str):
+    def __init__(self, vocab_size, cfg):
         super().__init__()
-        self.block_size = block_size
-        self.device_type = device_type
-        self.token_embedding_table = nn.Embedding(vocab_size, num_embeddings)
-        self.position_embedding_table = nn.Embedding(block_size, num_embeddings)
-        self.blocks = nn.Sequential(*[Block(block_size, num_embeddings, head_size, num_heads, dropout) 
-                                      for _ in range(num_layers)])
-        self.ln_f = nn.LayerNorm(num_embeddings) # final layer norm
-        self.lm_head = nn.Linear(num_embeddings, vocab_size)
+        self.block_size = cfg.block_size
+        self.device_type = cfg.device_type
+        self.token_embedding_table = nn.Embedding(vocab_size, cfg.num_embeddings)
+        self.position_embedding_table = nn.Embedding(cfg.block_size, cfg.num_embeddings)
+        self.blocks = nn.Sequential(*[Block(cfg) 
+                                      for _ in range(cfg.num_layers)])
+        self.ln_f = nn.LayerNorm(cfg.num_embeddings) # final layer norm
+        self.lm_head = nn.Linear(cfg.num_embeddings, vocab_size)
 
         # TODO: explain
         self.apply(self._init_weights)

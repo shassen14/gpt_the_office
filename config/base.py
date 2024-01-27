@@ -4,11 +4,12 @@ Choose configuration to use
 block_size: maximum context length for the model to utilize
 batch_size:
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 import torch
 
-choose_config = 'test_char_cfg'
+choose_config = 'small_cfg'
 
 if choose_config == 'test_char_cfg':
     import config.test_char_cfg as cfg
@@ -27,7 +28,7 @@ class Config:
     train_file: str         = cfg.train_file
     val_file: str           = cfg.val_file
     pkl_file: str           = cfg.pkl_file
-    file_array              = [cfg.train_file, val_file]
+    file_array: List[str]   = field(default_factory=lambda: [cfg.train_file, cfg.val_file])
 
     # Parameter Save/Load
     param_dir: str          = cfg.param_dir

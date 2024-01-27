@@ -1,10 +1,8 @@
 import utils
-import config.base as cfg
+import config.base
 from models import self_attention as sa
 
 import torch
-import torch.nn as nn
-from torch.nn import functional as F
 
 torch.set_printoptions(precision=2, linewidth=100)
 
@@ -12,11 +10,12 @@ torch.set_printoptions(precision=2, linewidth=100)
 Purpose is to train language models, save the model, and then generate a sample text
 to the terminal
 """
-
 if __name__ == "__main__":
+    # obtain all config parameters as an object
+    cfg = config.base.Config()
+
     # obtain file paths
-    pickle_path = utils.get_file_path(cfg.dataset_dir,
-                                      cfg.pkl_file)
+    pickle_path = utils.get_file_path(cfg.dataset_dir, cfg.pkl_file)
     pt_path = utils.get_file_path(cfg.param_dir, cfg.pt_file)
 
     # obtain metadata from pkl
@@ -24,14 +23,7 @@ if __name__ == "__main__":
 
     # create model using config params
     # convert model to the device. important if using cuda
-    model = sa.Model(meta_vocab_size,
-                     cfg.num_layers,
-                     cfg.block_size,
-                     cfg.num_embeddings,
-                     cfg.head_size,
-                     cfg.num_heads,
-                     cfg.dropout,
-                     cfg.device_type)
+    model = sa.Model(meta_vocab_size, cfg)
     model.to(cfg.device_type)
 
     # print the number of parameters in the model
@@ -52,8 +44,7 @@ if __name__ == "__main__":
                 'iteration': i,
                 'model': model.state_dict(),
                 'optimizer': optimizer.state_dict(),
-                # 'config': cfg,
-                # 'model_args': model_args,
+                'config': cfg
                 # 'best_val_loss': best_val_loss,
             }
             torch.save(torch_model, pt_path)
@@ -62,11 +53,7 @@ if __name__ == "__main__":
             print(meta_decode(model.generate(context, max_new_tokens=200)[0].tolist()))
 
         # get batch to train on using context length and batch size
-        xb, yb = utils.get_batch(cfg.dataset_dir,
-                                 cfg.train_file,
-                                 cfg.block_size,
-                                 cfg.batch_size,
-                                 cfg.device_type)
+        xb, yb = utils.get_batch(cfg, cfg.train_file)
         
         # train model with a single step of backward propagation
         logits, loss = model(xb, yb)
