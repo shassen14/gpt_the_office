@@ -66,8 +66,8 @@ print(f"val has {len(val_ids):,} tokens")
 # export to bin files
 train_ids = np.array(train_ids, dtype=np.uint16)
 val_ids = np.array(val_ids, dtype=np.uint16)
-train_ids.tofile(input_folder_path + "/" + dc.train_file_name)
-val_ids.tofile(input_folder_path + "/" + dc.val_file_name)
+train_ids.tofile(input_folder_path + "/train.bin")
+val_ids.tofile(input_folder_path + "/val.bin")
 
 # save the meta information as well, to help us encode/decode later
 meta = {
@@ -76,7 +76,7 @@ meta = {
     "itos": itos,
     "stoi": stoi,
 }
-with open(input_folder_path + "/" + dc.pkl_file_name, "wb") as f:
+with open(input_folder_path + "/meta.pkl", "wb") as f:
     pickle.dump(meta, f)
 
 # For Shakespeare,
