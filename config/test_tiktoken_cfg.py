@@ -8,12 +8,12 @@ pkl_file = 'meta.pkl'
 
 # params
 param_dir = 'params'
-pt_file = 'test_char_cfg.pt'
+pt_file = 'test_tiktoken_cfg.pt'
 
 # generate sample
 sample_dir = 'examples'
-sample_file = 'shakespeare_char_example.txt'
-max_new_tokens = 5000
+sample_file = 'shakespeare_tiktoken_example.txt'
+max_new_tokens = 2000
 
 # Model
 batch_size = 4
@@ -25,4 +25,4 @@ dropout = 0.2
 
 # Learning
 learning_rate = 3e-4
-max_iterations = 8000
+max_iterations = 1000
