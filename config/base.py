@@ -9,20 +9,22 @@ from typing import List
 
 import torch
 
-choose_config = 'small_cfg'
+choose_config = "small_cfg"
 
-if choose_config == 'test_char_cfg':
+if choose_config == "test_char_cfg":
     import config.test_char_cfg as cfg
-elif choose_config == 'test_tiktoken_cfg':
+elif choose_config == "test_tiktoken_cfg":
     import config.test_tiktoken_cfg as cfg
-elif choose_config == 'small_cfg':
+elif choose_config == "small_cfg":
     import config.small_cfg as cfg
 else:
     print(f"config, {choose_config}, isn't valid. Please choose or add a valid one.")
     exit()
 
+
 @dataclass
 class Config:
+    # fmt: off
     # Dataset to utilize
     dataset_dir: str        = cfg.dataset_dir
     train_file: str         = cfg.train_file
@@ -53,11 +55,12 @@ class Config:
     eval_iterations: int    = int(max_iterations / 10)
 
     # get device type. get GPU or apple if possible
-    device_type: str        = 'cpu'
+    device_type: str        = "cpu"
+    # fmt: on
 
     if torch.cuda.is_available():
         device_type = "cuda"
     elif torch.backends.mps.is_available():
-        device_type = 'mps'
+        device_type = "mps"
 
     print("Device Type: " + device_type)

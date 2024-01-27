@@ -1,18 +1,18 @@
 # TODO: organize and comment
 
 # dataset
-dataset_dir = 'data/shakespeare_char'
-train_file = 'train.bin'
-val_file = 'val.bin'
-pkl_file = 'meta.pkl'
+dataset_dir = "data/shakespeare_char"
+train_file = "train.bin"
+val_file = "val.bin"
+pkl_file = "meta.pkl"
 
 # params
-param_dir = 'params'
-pt_file = 'small_cfg.pt'
+param_dir = "params"
+pt_file = "small_cfg.pt"
 
 # generate sample
-sample_dir = 'examples'
-sample_file = 'shakespeare_small_cfg_example.txt'
+sample_dir = "examples"
+sample_file = "shakespeare_small_cfg_example.txt"
 max_new_tokens = 1000
 
 # Model
