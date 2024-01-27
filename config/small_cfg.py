@@ -1,7 +1,7 @@
 # TODO: organize and comment
 
 # dataset
-dataset_dir = 'data/shakespeare'
+dataset_dir = 'data/shakespeare_char'
 train_file = 'train.bin'
 val_file = 'val.bin'
 pkl_file = 'meta.pkl'
