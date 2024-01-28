@@ -9,14 +9,14 @@ from typing import List
 
 import torch
 
-choose_config = "test_char_cfg"
+choose_config = "test_tiktoken"
 
-if choose_config == "test_char_cfg":
-    import config.test_char_cfg as cfg
-elif choose_config == "test_tiktoken_cfg":
-    import config.test_tiktoken_cfg as cfg
-elif choose_config == "small_cfg":
-    import config.small_cfg as cfg
+if choose_config == "test_char":
+    import config.test_char as cfg
+elif choose_config == "test_tiktoken":
+    import config.test_tiktoken as cfg
+elif choose_config == "small":
+    import config.small as cfg
 else:
     print(f"config, {choose_config}, isn't valid. Please choose or add a valid one.")
     exit()
@@ -25,6 +25,9 @@ else:
 @dataclass
 class Config:
     # fmt: off
+    # Initialize
+    initialize: str         = cfg.initialize
+
     # Dataset to utilize
     dataset_dir: str        = cfg.dataset_dir
     train_file: str         = "train.bin"
@@ -33,11 +36,11 @@ class Config:
     file_array: List[str]   = field(default_factory=lambda: [Config.train_file, Config.val_file])
 
     # Parameter Save/Load
-    param_dir: str          = cfg.param_dir
+    param_dir: str          = "params"
     pt_file: str            = cfg.pt_file
 
     ## Generate sample texts
-    sample_dir: str         = cfg.sample_dir
+    sample_dir: str         = "examples"
     sample_file: str        = cfg.sample_file
     max_new_tokens: int     = cfg.max_new_tokens
 
@@ -50,14 +53,14 @@ class Config:
     head_size: int          = num_embeddings // num_heads
     dropout: float          = cfg.dropout
 
-    learning_rate: float    = cfg.learning_rate
     max_iterations: int     = cfg.max_iterations
-    eval_iterations: int    = int(max_iterations / 10)
+    eval_iterations: int    = cfg.eval_iterations
+    max_learning_rate: float= cfg.max_learning_rate
+
 
     # get device type. get GPU or apple if possible
     device_type: str        = "cpu"
     # fmt: on
-
     if torch.cuda.is_available():
         device_type = "cuda"
     elif torch.backends.mps.is_available():

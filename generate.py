@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # obtain metadata from pkl
     meta_vocab_size, meta_encode, meta_decode = utils.abstract_pickle(pickle_path)
 
-    # obtain model and optimizer
+    # obtain model
     model = sa.Model(meta_vocab_size, cfg)
     model.to(cfg.device_type)
 

@@ -75,7 +75,7 @@ def abstract_pickle(pickle_path: str):
             meta_decode = lambda l: "".join(
                 [meta["itos"][i] for i in l]
             )  # decoder: take a list of integers, output a string
-        print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
+        # print(f"found vocab_size = {meta_vocab_size} (inside {pickle_path})")
         return meta_vocab_size, meta_encode, meta_decode
     else:
         print(pickle_path + " doesn't exist. Please give a valid pkl file.")

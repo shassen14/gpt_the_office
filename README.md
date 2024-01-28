@@ -71,8 +71,10 @@ such as the following:
 - [x] Have a train.py for training and a generate.py for running models given parameters
 - [x] Need to rename main.py to something else -> train.py
 - [ ] Save parameters midway. Have the ability to resume training if stopped midway
-- [ ] need better visualization
-- [x] simplify environment setup
-- [ ] might include docker as well for environment setup?
-- [ ] webscrape for the office screenplay
-- [ ] give context text to the generation step 
+- [ ] Need better visualization
+- [x] Simplify environment setup
+- [ ] Might include docker as well for environment setup?
+- [ ] Webscrape for the office screenplay
+- [ ] Give context text to the generation step 
+- [ ] Instead of print statements, use logging library
+- [ ] Things are getting more serious. name cfg files with context
