@@ -40,9 +40,16 @@ A `.pt` model should have been saved in the `params` directory like the followin
 ![](docs/media/params_dir.png)
 
 ## Generation
+1. Ensure one is in the virtual environment with `source venv/bin/activate`
+2. `python3 generation.py`
 
+The terminal output shows text printing line by line utilizing the model saved from the training section.
+Here is an example in the following:
+![](docs/media/generation.gif)
 
-
+The generated text shown in the terminal should also be saved as a `.txt` file in the `examples` directory
+such as the following:
+![](docs/media/examples_dir.png)
 
 ## Future Plans
 
