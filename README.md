@@ -75,3 +75,4 @@ such as the following:
 - [x] simplify environment setup
 - [ ] might include docker as well for environment setup?
 - [ ] webscrape for the office screenplay
+- [ ] give context text to the generation step 
