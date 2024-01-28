@@ -2,9 +2,6 @@
 
 # dataset
 dataset_dir = "data/shakespeare_tiktoken"
-train_file = "train.bin"
-val_file = "val.bin"
-pkl_file = "meta.pkl"
 
 # params
 param_dir = "params"

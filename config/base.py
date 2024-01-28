@@ -9,7 +9,7 @@ from typing import List
 
 import torch
 
-choose_config = "small_cfg"
+choose_config = "test_char_cfg"
 
 if choose_config == "test_char_cfg":
     import config.test_char_cfg as cfg
@@ -27,10 +27,10 @@ class Config:
     # fmt: off
     # Dataset to utilize
     dataset_dir: str        = cfg.dataset_dir
-    train_file: str         = cfg.train_file
-    val_file: str           = cfg.val_file
-    pkl_file: str           = cfg.pkl_file
-    file_array: List[str]   = field(default_factory=lambda: [cfg.train_file, cfg.val_file])
+    train_file: str         = "train.bin"
+    val_file: str           = "val.bin"
+    pkl_file: str           = "meta.pkl"
+    file_array: List[str]   = field(default_factory=lambda: [Config.train_file, Config.val_file])
 
     # Parameter Save/Load
     param_dir: str          = cfg.param_dir
