@@ -1,6 +1,6 @@
 # gpt_the_office
-
-A gpt that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from `The Office`. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY)
+## Background
+A gpt (Generative Pre-trained Transformer) that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from `The Office`. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY)
 
 ## Setting up the environment
 We need to make sure that our environment has all the required packages to run this repo.
@@ -12,7 +12,7 @@ Assumption is you have python3, using pip, and a linux os.
 3. `sh set_environment.sh` or `bash set_environment.sh`
 
 Here is a gif to showcase a similar procedure and expected output:
-![](docs/media/setup_environment.gif)
+![](docs/main/setup_environment.gif)
 
 If one is not running linux, then do something similar to the following:
 1. `gh repo clone shassen14/gpt_the_office` (or however you would like to clone the repo)
@@ -30,7 +30,7 @@ We shall download a set from an online source before training a model.
 2. `python3 ./data/prep_char_data.py`
 
 This will then create a character-level dataset directory that has the `meta.pkl`, `script.txt`, `training.bin`, and `val.bin`. The following gif shows the steps and example terminal outputs:
-![](docs/media/prep_char_data.gif)
+![](docs/main/prep_char_data.gif)
 
 This will rather download the dataset or confirm it's already there. One can edit the `data/data_config.py` to edit file names and download another dataset recommended in the comments or one's own.
 
@@ -42,10 +42,10 @@ We shall train a gpt model given a dataset downloaded in the previous section.
 
 The terminal output shows the estimated training loss, validation loss, and an example text from that checkpoint.
 Here is an example terminal output from training a model for ~1-2 minutes:
-![](docs/media/train.gif)
+![](docs/main/train.gif)
 
 A `.pt` model should have been saved in the `params` directory like the following:
-![](docs/media/params_dir.png)
+![](docs/main/params_dir.png)
 
 ## Generation
 Once we trained a gpt model, we can now create some screenplays by generating texts.
@@ -55,11 +55,11 @@ Once we trained a gpt model, we can now create some screenplays by generating te
 
 The terminal output shows text printing line by line utilizing the model saved from the training section.
 Here is an example in the following:
-![](docs/media/generation.gif)
+![](docs/main/generation.gif)
 
 The generated text shown in the terminal should also be saved as a `.txt` file in the `examples` directory
 such as the following:
-![](docs/media/examples_dir.png)
+![](docs/main/examples_dir.png)
 
 ## Future Plans
 
