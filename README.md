@@ -23,7 +23,7 @@ If one is not running linux, then do something similar to the following:
 1. Ensure one is in the virtual environment with `source venv/bin/activate`
 2. `python3 ./data/prep_char_data.py`
 
-This will then create a character-level dataset directory that has the `script.txt`, `training.bin`, `val.bin`, and `meta.pkl`. The following gif shows the steps and example terminal outputs:
+This will then create a character-level dataset directory that has the `meta.pkl`, `script.txt`, `training.bin`, and `val.bin`. The following gif shows the steps and example terminal outputs:
 ![](docs/media/prep_char_data.gif)
 
 This will rather download the dataset or confirm it's already there. One can edit the `data/data_config.py` to edit file names and download another dataset recommended in the comments or one's own.
@@ -31,6 +31,13 @@ This will rather download the dataset or confirm it's already there. One can edi
 ## Training
 1. Ensure one is in the virtual environment with `source venv/bin/activate`
 2. `python3 train.py`
+
+The terminal output shows the estimated training loss, validation loss, and an example text from that checkpoint.
+Here is an example terminal output from training a model for ~1-2 minutes:
+![](docs/media/train.gif)
+
+A `.pt` model should have been saved in the `params` directory like the following:
+![](docs/media/params_dir.png)
 
 ## Generation
 
