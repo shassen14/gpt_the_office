@@ -16,7 +16,7 @@ is_tiktoken = False
 # download the desired dataset
 # obtain folder and file path
 input_folder_path = os.path.join(os.path.dirname(__file__), dc.folder_name + "_char")
-input_file_path = input_folder_path + "/" + dc.script_file_name
+input_file_path = input_folder_path + "/script.txt"
 
 # create folder directory if none exists
 if not os.path.exists(input_folder_path):

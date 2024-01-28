@@ -6,6 +6,5 @@ Example urls:
 2. https://raw.githubusercontent.com/shassen14/datasets/main/shakespeare/script.txt
 """
 
-folder_name = "shakespeare"
-script_file_name = "script.txt"
-url = "https://raw.githubusercontent.com/shassen14/datasets/main/shakespeare/script.txt"
+folder_name = "the_office_subtitles"
+url = "https://raw.githubusercontent.com/shassen14/datasets/main/the_office/script2.txt"
