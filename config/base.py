@@ -45,6 +45,7 @@ class Config:
     max_new_tokens: int     = cfg.max_new_tokens
 
     ############################## Paramaters #####################################
+    # Model
     block_size: int         = cfg.block_size
     batch_size: int         = cfg.batch_size
     num_embeddings: int     = cfg.num_embeddings
@@ -53,9 +54,13 @@ class Config:
     head_size: int          = num_embeddings // num_heads
     dropout: float          = cfg.dropout
 
+    # Optimizer
     max_iterations: int     = cfg.max_iterations
     eval_iterations: int    = cfg.eval_iterations
+    warmup_iterations: int  = cfg.warmup_iterations
+    decay_iterations: int   = cfg.decay_iterations
     max_learning_rate: float= cfg.max_learning_rate
+    min_learning_rate: float= cfg.min_learning_rate
 
 
     # get device type. get GPU or apple if possible

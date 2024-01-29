@@ -2,7 +2,7 @@
 import os
 
 # Resume or Start
-initialize = "start"
+initialize = "resume"
 
 # dataset
 dataset = "the_office"
@@ -18,15 +18,17 @@ sample_file = dataset + "_" + dataset_type + "" + ".txt"
 max_new_tokens = 2000
 
 # Model
-batch_size = 4
-block_size = 512
-num_embeddings = 768
-num_heads = 8
-num_layers = 8
+batch_size = 16
+block_size = 256
+num_embeddings = 384
+num_heads = 6
+num_layers = 6
 dropout = 0.2
 
-# Learning
-max_iterations = 8000
+# Learning / Optimizer
+max_iterations = 4000
 eval_iterations = 200
+warmup_iterations = int(float(max_iterations) * 0.1)  # warmup 10% of the time
+decay_iterations = int(float(max_iterations) * 0.9)  # dacayed to min_lr after 90%
 max_learning_rate = 3e-4
-min_learning_rate = 1e-5
+min_learning_rate = 1e-6

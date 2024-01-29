@@ -78,3 +78,4 @@ such as the following:
 - [ ] Give context text to the generation step 
 - [ ] Instead of print statements, use logging library
 - [ ] Things are getting more serious. name cfg files with context
+- [ ] argparse to overwrite some variables. Main one is to resume or start

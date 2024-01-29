@@ -13,6 +13,8 @@ to the terminal during checkpoints
 # Globals
 iteration = 0
 best_val_loss = sys.float_info.max
+beta1 = 0.9
+beta2 = 0.95
 
 if __name__ == "__main__":
     # obtain all config parameters as an object
@@ -27,7 +29,7 @@ if __name__ == "__main__":
 
     # Initializing model
     if cfg.initialize == "start":
-        print(f"Initializing from the {cfg.initalize}")
+        print(f"Initializing from the {cfg.initialize}")
         # create model using config params
         # convert model to the device. important if using cuda
         model = sa.Model(meta_vocab_size, cfg)
@@ -37,7 +39,9 @@ if __name__ == "__main__":
         print(sum(p.numel() for p in model.parameters()) / 1e6, "million parameters")
 
         # create a PyTorch optimizer
-        optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.max_learning_rate)
+        optimizer = torch.optim.AdamW(
+            model.parameters(), lr=cfg.max_learning_rate, betas=(beta1, beta2)
+        )
     elif cfg.initialize == "resume":
         print(f"{cfg.initialize} from {pt_path} model")
         # load pytorch model
@@ -55,7 +59,9 @@ if __name__ == "__main__":
         print(sum(p.numel() for p in model.parameters()) / 1e6, "million parameters")
 
         # Load pytorch optimizer
-        optimizer = torch.optim.AdamW(model.parameters(), lr=cfg.max_learning_rate)
+        optimizer = torch.optim.AdamW(
+            model.parameters(), lr=cfg.max_learning_rate, betas=(beta1, beta2)
+        )
         optimizer.load_state_dict(torch_model["optimizer"])
     else:
         print(
@@ -65,12 +71,17 @@ if __name__ == "__main__":
 
     # iterate max iteration amount of times
     while iteration < cfg.max_iterations:
+        # determine and set the learning rate for this iteration
+        lr = utils.calculate_learning_rate(cfg, iteration)
+        for param_group in optimizer.param_groups:
+            param_group["lr"] = lr
+
         # print loss ever so often to check our model's progress
         # save our model and optimzer ever so often
         if iteration % cfg.eval_iterations == 0 or iteration == cfg.max_iterations - 1:
             losses = utils.estimate_loss(model, cfg)
             print(
-                f"\nstep {iteration}: train loss {losses[cfg.train_file]:.4f}, validation loss {losses[cfg.val_file]:.4f}"
+                f"\nstep {iteration}: train loss {losses[cfg.train_file]:.4f}, validation loss {losses[cfg.val_file]:.4f}, learning rate {lr}"
             )
 
             # save model if the current validation loss is less than the current best

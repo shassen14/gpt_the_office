@@ -98,3 +98,19 @@ def estimate_loss(model, cfg) -> dict:
         out[split] = losses.mean()
     model.train()
     return out
+
+
+###############################################################################
+
+
+def calculate_learning_rate(cfg, iteration: int) -> float:
+    if iteration < cfg.warmup_iterations:
+        return cfg.max_learning_rate
+    elif iteration > cfg.decay_iterations:
+        return cfg.min_learning_rate
+
+    dif_lr = cfg.max_learning_rate - cfg.min_learning_rate
+    dif_iter = cfg.decay_iterations - cfg.warmup_iterations
+
+    coeff = dif_lr * (iteration - cfg.warmup_iterations) / dif_iter
+    return cfg.max_learning_rate - coeff
