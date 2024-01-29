@@ -2,25 +2,23 @@
 import os
 
 # Resume or Start
-initialize = "resume"
+initialize = "start"
 
 # dataset
-dataset = "the_office"
-dataset_type = "tiktoken"
 cfg_file_name = os.path.basename(__file__)[:-3]
-dataset_dir = "data/" + dataset + "_" + dataset_type
+dataset_dir = "data/" + cfg_file_name
 
 # params
-pt_file = dataset + "_" + cfg_file_name + ".pt"
+pt_file = cfg_file_name + ".pt"
 
 # generate sample
-sample_file = dataset + "_" + dataset_type + "" + ".txt"
+sample_file = cfg_file_name + "" + ".txt"
 max_new_tokens = 2000
 
 # Model
-batch_size = 16
-block_size = 256
-num_embeddings = 384
+batch_size = 32
+block_size = 128
+num_embeddings = 256
 num_heads = 6
 num_layers = 6
 dropout = 0.2

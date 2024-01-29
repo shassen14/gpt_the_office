@@ -9,14 +9,12 @@ from typing import List
 
 import torch
 
-choose_config = "test_tiktoken"
+choose_config = "the_office_char"
 
-if choose_config == "test_char":
-    import config.test_char as cfg
-elif choose_config == "test_tiktoken":
-    import config.test_tiktoken as cfg
-elif choose_config == "small":
-    import config.small as cfg
+if choose_config == "the_office_char":
+    import config.the_office_char as cfg
+elif choose_config == "the_office_gpt2":
+    import config.the_office_gpt2 as cfg
 else:
     print(f"config, {choose_config}, isn't valid. Please choose or add a valid one.")
     exit()
