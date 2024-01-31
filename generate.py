@@ -16,19 +16,21 @@ if __name__ == "__main__":
     # obtain metadata from pkl
     meta_vocab_size, meta_encode, meta_decode = utils.abstract_pickle(pickle_path)
 
-    # obtain model
-    model = sa.Model(meta_vocab_size, cfg)
-    model.to(cfg.device_type)
-
+    # obtain torch model saved
     torch_model = torch.load(pt_path)
-    model.load_state_dict(torch_model["model"])
-    model.eval()
 
-    # update cfg for model parameters
+    # obtain cfg in torch model
     # TODO: there probably is some bug by doing it this way. Need to figure out
     # a better way to load config that reduces a bug happening from
     # differentiating config parameters
     cfg = torch_model["config"]
+
+    # obtain model and optimizer
+    model = sa.Model(meta_vocab_size, cfg)
+    model.to(cfg.device_type)
+
+    model.load_state_dict(torch_model["model"])
+    model.eval()
 
     # TODO: read from a context file if given one and use that as the start
     start = "\n"

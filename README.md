@@ -76,6 +76,10 @@ such as the following:
 - [ ] Might include docker as well for environment setup?
 - [ ] Webscrape for the office screenplay
 - [ ] Give context text to the generation step 
+- [ ] add more sections in readme
+- [ ] add readme in config
+- [ ] add readme in data
+- [ ] add readme in models
 - [ ] Instead of print statements, use logging library
 - [ ] Things are getting more serious. name cfg files with context
 - [ ] argparse to overwrite some variables. Main one is to resume or start
