@@ -76,3 +76,7 @@ such as the following:
 - [ ] Might include docker as well for environment setup?
 - [ ] Webscrape for the office screenplay
 - [ ] Give context text to the generation step 
+- [ ] add more sections in readme
+- [ ] add readme in config
+- [ ] add readme in data
+- [ ] add readme in models
