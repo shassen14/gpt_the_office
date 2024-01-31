@@ -4,8 +4,23 @@ import tiktoken
 import numpy as np
 import torch
 
+from config import base as cb
 
-def get_batch(cfg, dataset_type: str) -> tuple[torch.Tensor, torch.Tensor]:
+
+def get_folder_path(folder: str) -> str:
+    folder_path = os.path.join(os.path.dirname(__file__), folder)
+    os.makedirs(folder_path, exist_ok=True)
+    return folder_path
+
+
+###############################################################################
+def get_file_path(folder: str, file: str) -> str:
+    file_path = get_folder_path(folder) + "/" + file
+    return file_path
+
+
+###############################################################################
+def get_batch(cfg: cb.Config, dataset_type: str) -> tuple[torch.Tensor, torch.Tensor]:
     # Obtain file path
     file_path = get_file_path(cfg.dataset_dir, dataset_type)
 
@@ -35,25 +50,6 @@ def get_batch(cfg, dataset_type: str) -> tuple[torch.Tensor, torch.Tensor]:
 
 
 ###############################################################################
-
-
-def get_folder_path(folder: str) -> str:
-    folder_path = os.path.join(os.path.dirname(__file__), folder)
-    os.makedirs(folder_path, exist_ok=True)
-    return folder_path
-
-
-###############################################################################
-
-
-def get_file_path(folder: str, file: str) -> str:
-    file_path = get_folder_path(folder) + "/" + file
-    return file_path
-
-
-###############################################################################
-
-
 def abstract_pickle(pickle_path: str):
     # obtain vocabulary size from pkl
     if os.path.exists(pickle_path):
@@ -83,10 +79,8 @@ def abstract_pickle(pickle_path: str):
 
 
 ###############################################################################
-
-
 @torch.no_grad()
-def estimate_loss(model, cfg) -> dict:
+def estimate_loss(cfg: cb.Config, model) -> dict:
     out = {}
     model.eval()
     for split in cfg.file_array:
@@ -101,9 +95,7 @@ def estimate_loss(model, cfg) -> dict:
 
 
 ###############################################################################
-
-
-def calculate_learning_rate(cfg, iteration: int) -> float:
+def calculate_learning_rate(cfg: cb.Config, iteration: int) -> float:
     if iteration < cfg.warmup_iterations:
         return cfg.max_learning_rate
     elif iteration > cfg.decay_iterations:

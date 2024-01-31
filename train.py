@@ -79,7 +79,7 @@ if __name__ == "__main__":
         # print loss ever so often to check our model's progress
         # save our model and optimzer ever so often
         if iteration % cfg.eval_iterations == 0 or iteration == cfg.max_iterations - 1:
-            losses = utils.estimate_loss(model, cfg)
+            losses = utils.estimate_loss(cfg, model)
             print(
                 f"\nstep {iteration}: train loss {losses[cfg.train_file]:.4f}, validation loss {losses[cfg.val_file]:.4f}, learning rate {lr}"
             )
