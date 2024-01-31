@@ -34,6 +34,9 @@ We shall download a set from an online source before training a model.
 This will then create a character-level dataset directory that has the `meta.pkl`, `script.txt`, `training.bin`, and `val.bin`. The following gif shows the steps and example terminal outputs:
 ![](docs/main/prep_char_data.gif)
 
+An example for the dataset directory created is the following:
+![](docs/main/dataset_dir.png)
+
 This will rather download the dataset or confirm it's already there. One can edit the `data/data_config.py` to edit file names and download another dataset recommended in the comments or one's own.
 
 ### Training
