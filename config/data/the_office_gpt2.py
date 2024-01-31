@@ -1,27 +1,12 @@
 # TODO: organize and comment
 import os
 
-# Resume or Start
-initialize = "start"
-
-# dataset
-cfg_file_name = os.path.basename(__file__)[:-3]
-dataset_dir = "data/" + cfg_file_name
-
-# params
-pt_file = cfg_file_name + ".pt"
+# dataset folder name and this file should be the same
+file_name = os.path.basename(__file__)[:-3]
+dataset_dir = "data/" + file_name
 
 # generate sample
-sample_file = cfg_file_name + "" + ".txt"
 max_new_tokens = 2000
-
-# Model
-batch_size = 32
-block_size = 128
-num_embeddings = 256
-num_heads = 6
-num_layers = 6
-dropout = 0.2
 
 # Learning / Optimizer
 max_iterations = 4000
