@@ -10,18 +10,25 @@ from typing import List
 import torch
 
 # NOTE: Edit the following variables to choose initialization, data, model params
-initialize = "start"
-choose_data = "the_office_char"
+initialize = "resume"
+choose_data = "the_office_gpt2"
 choose_model = "medium"
+new_tokens = 2000
 
+# "switch" to select data and name pt and txt files generated
 if choose_data == "the_office_char":
     from .data import the_office_char as dt
 elif choose_data == "the_office_gpt2":
     from .data import the_office_gpt2 as dt
+elif choose_data == "shakespeare_char":
+    from .data import shakespeare_char as dt
+elif choose_data == "shakespeare_gpt2":
+    from .data import shakespeare_gpt2 as dt
 else:
     print(f"data, {choose_data}, isn't valid. Please choose or add a valid one.")
     exit()
 
+# "switch" to select model's hyperparameters
 if choose_model == "small":
     from .model import small as mdl
 elif choose_model == "medium":
@@ -58,7 +65,7 @@ class Config:
     ## Generate sample texts
     sample_dir: str         = "examples"
     sample_file: str        = dt.file_name + "_" + choose_model + ".txt"
-    max_new_tokens: int     = dt.max_new_tokens
+    max_new_tokens: int     = new_tokens
 
     ############################## Paramaters #####################################
     # Model
@@ -71,12 +78,12 @@ class Config:
     dropout: float          = mdl.dropout
 
     # Optimizer
-    max_iterations: int     = dt.max_iterations
-    eval_iterations: int    = dt.eval_iterations
-    warmup_iterations: int  = dt.warmup_iterations
-    decay_iterations: int   = dt.decay_iterations
-    max_learning_rate: float= dt.max_learning_rate
-    min_learning_rate: float= dt.min_learning_rate
+    max_iterations: int     = mdl.max_iterations
+    eval_iterations: int    = mdl.eval_iterations
+    warmup_iterations: int  = mdl.warmup_iterations
+    decay_iterations: int   = mdl.decay_iterations
+    max_learning_rate: float= mdl.max_learning_rate
+    min_learning_rate: float= mdl.min_learning_rate
 
     # get device type. get GPU or apple if possible
     device_type: str        = "cpu"

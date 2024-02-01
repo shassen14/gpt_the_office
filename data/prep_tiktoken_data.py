@@ -4,6 +4,7 @@ We map characters to ints. Will save train.bin, val.bin containing the ids,
 and meta.pkl containing the encoder and decoder and some other related info.
 """
 import data_config as dc
+import utils
 
 import os
 import pickle
@@ -18,9 +19,8 @@ is_tiktoken = True
 
 # download the desired dataset
 # obtain folder and file path
-input_folder_path = os.path.join(
-    os.path.dirname(__file__), dc.folder_name + "_" + tiktoken_model
-)
+tiktoken_folder = dc.folder_name + "_" + tiktoken_model
+input_folder_path = os.path.join(os.path.dirname(__file__), tiktoken_folder)
 input_file_path = input_folder_path + "/script.txt"
 
 # create folder directory if none exists
@@ -61,3 +61,5 @@ meta = {
 }
 with open(input_folder_path + "/meta.pkl", "wb") as f:
     pickle.dump(meta, f)
+
+utils.write_to_config_data(tiktoken_folder)
