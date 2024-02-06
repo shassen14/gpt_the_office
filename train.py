@@ -58,11 +58,14 @@ if __name__ == "__main__":
         # print the number of parameters in the model
         print(sum(p.numel() for p in model.parameters()) / 1e6, "million parameters")
 
-        # Load pytorch optimizer
+        # load pytorch optimizer
         optimizer = torch.optim.AdamW(
             model.parameters(), lr=cfg.max_learning_rate, betas=(beta1, beta2)
         )
         optimizer.load_state_dict(torch_model["optimizer"])
+
+        # update best validation loss from torch model
+        best_val_loss = torch_model["best_val_loss"]
     else:
         print(
             f"Change cfg.initialize to 'start' or 'resume'. The value is {cfg.initialize}"
