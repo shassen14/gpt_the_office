@@ -1,8 +1,9 @@
 """
 Hyperparameters for a "small" model
 """
+
 # Learning Model
-batch_size = 8
+batch_size = 64
 block_size = 128
 num_embeddings = 32
 num_heads = 4

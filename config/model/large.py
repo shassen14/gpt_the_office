@@ -1,12 +1,13 @@
 """
 Hyperparameters for a "large" model
 """
+
 # Learning Model
-batch_size = 8
-block_size = 256
-num_embeddings = 448
-num_heads = 8
-num_layers = 10
+batch_size = 32
+block_size = 128
+num_embeddings = 128
+num_heads = 6
+num_layers = 6
 dropout = 0.2
 
 # Learning / Optimizer
