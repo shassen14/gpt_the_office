@@ -71,13 +71,15 @@ such as the following:
 - [x] Collect different level of tokens via tiktoken (what gpt2 uses)
 - [x] Create a gpt model based off of [Attention is all you need](https://arxiv.org/pdf/1706.03762.pdf)
 - [x] Save parameters
-- [ ] Organize parameters
+- [x] Organize parameters
 - [x] Organize gpt model directory. might make it one file?
 - [x] Have a train.py for training and a generate.py for running models given parameters
 - [x] Need to rename main.py to something else -> train.py
-- [ ] Save parameters midway. Have the ability to resume training if stopped midway
-- [ ] Need better visualization
+- [x] Save parameters midway. Have the ability to resume training if stopped midway
 - [x] Simplify environment setup
+- [x] Things are getting more serious. name cfg files with context
+- [ ] Need better visualization
+- [ ] Might split configs differently. Optimizer params split with model creation params. Haven't decided yet
 - [ ] Might include docker as well for environment setup?
 - [ ] Webscrape for the office screenplay
 - [ ] Give context text to the generation step 
@@ -86,5 +88,4 @@ such as the following:
 - [ ] add readme in data
 - [ ] add readme in models
 - [ ] Instead of print statements, use logging library
-- [ ] Things are getting more serious. name cfg files with context
 - [ ] argparse to overwrite some variables. Main one is to resume or start
