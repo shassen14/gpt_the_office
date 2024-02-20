@@ -3,15 +3,15 @@ Hyperparameters for a "large" model
 """
 
 # Learning Model
-batch_size = 32
-block_size = 128
-num_embeddings = 128
+batch_size = 64
+block_size = 256
+num_embeddings = 256
 num_heads = 6
 num_layers = 6
 dropout = 0.2
 
 # Learning / Optimizer
-max_iterations = 3000
+max_iterations = 2400
 eval_iterations = 200
 warmup_iterations = int(float(max_iterations) * 0.1)  # warmup 10% of the time
 decay_iterations = int(float(max_iterations) * 0.9)  # dacayed to min_lr after 90%

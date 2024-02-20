@@ -3,6 +3,7 @@ Prepare dataset for word/part-of-word/character-level language modeling.
 We map characters to ints. Will save train.bin, val.bin containing the ids,
 and meta.pkl containing the encoder and decoder and some other related info.
 """
+
 import data_config as dc
 import utils
 
@@ -12,7 +13,8 @@ import requests
 import tiktoken
 import numpy as np
 
-# TODO: vocab size is attached to tiktoken model
+# TODO: vocab size is attached to tiktoken model. Make this configurable for
+# different models
 vocab_size = 50257
 tiktoken_model = "gpt2"
 is_tiktoken = True

@@ -2,7 +2,7 @@
 
 ## Background
 
-A gpt (Generative Pre-trained Transformer) that can learn writing about texts given a dataset. The motivation behind this repo is to create scripts from `The Office`. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY)
+We are creating a simple gpt (Generative Pre-trained Transformer) that can learn writing texts given a dataset. The motivation behind this repo is to create scripts from `The Office`. The first iteration will be utilizing character-wise tokens. Inspiration came from Andrej Karpathy and his video [here](https://www.youtube.com/watch?v=kCc8FmEb1nY). For simplicity sake, this will utilize one GPU.
 
 ## Quick Start
 
@@ -86,14 +86,17 @@ such as the following:
 - [x] Save parameters midway. Have the ability to resume training if stopped midway
 - [x] Simplify environment setup
 - [x] Things are getting more serious. name cfg files with context
-- [ ] Need better visualization
+- [x] Webscrape for the office screenplay
+- [x] add readme in data
+- [ ] add a tutorial section where people can create models of their own in the readme
+- [ ] add readme in config
+- [ ] add readme in models
+- [ ] Give context text to the generation step
+- [ ] Need better visualization (wandb?). This will help understand under the hood parameters
+- [ ] argparse to overwrite some variables. Main one is to resume or start
+
 - [ ] Might split configs differently. Optimizer params split with model creation params. Haven't decided yet
 - [ ] Might include docker as well for environment setup?
-- [ ] Webscrape for the office screenplay
-- [ ] Give context text to the generation step
-- [ ] add more sections in readme
-- [ ] add readme in config
-- [ ] add readme in data
-- [ ] add readme in models
+
 - [ ] Instead of print statements, use logging library
-- [ ] argparse to overwrite some variables. Main one is to resume or start
+- [ ] Maybe one day when I blessed to have a GPU cluster, I'll write this utilizing PyTorch's FSDP for parrallel computing

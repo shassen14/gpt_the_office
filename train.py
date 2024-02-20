@@ -11,6 +11,7 @@ Purpose is to train language models, save the model, and then generate a sample 
 to the terminal during checkpoints
 """
 # Globals
+# TODO: Have beta1, beta2 configurable. Should be in the model/optimizer section of configs
 iteration = 0
 best_val_loss = sys.float_info.max
 beta1 = 0.9
@@ -101,6 +102,7 @@ if __name__ == "__main__":
                 torch.save(torch_model, pt_path)
 
             # example generation
+            # TODO: max_new_tokens is hardcoded. Might want to make it configurable?
             print("CHECKPOINT EXAMPLE TEXT:")
             context = torch.zeros((1, 1), dtype=torch.long, device=cfg.device_type)
             print(meta_decode(model.generate(context, max_new_tokens=200)[0].tolist()))

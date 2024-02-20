@@ -7,6 +7,7 @@ import torch
 from config import base as cb
 
 
+###############################################################################
 def get_folder_path(folder: str) -> str:
     folder_path = os.path.join(os.path.dirname(__file__), folder)
     os.makedirs(folder_path, exist_ok=True)
@@ -27,7 +28,7 @@ def get_batch(cfg: cb.Config, dataset_type: str) -> tuple[torch.Tensor, torch.Te
     # save data
     data = np.memmap(file_path, dtype=np.uint16, mode="r")
 
-    # random block chunk generator TODO: figure out what is happening here
+    # random block chunk generator
     ix = torch.randint(len(data) - cfg.block_size, (cfg.batch_size,))
     x = torch.stack(
         [torch.from_numpy((data[i : i + cfg.block_size]).astype(np.int64)) for i in ix]

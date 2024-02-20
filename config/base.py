@@ -4,16 +4,17 @@ Choose configuration to use
 block_size: maximum context length for the model to utilize
 batch_size:
 """
+
 from dataclasses import dataclass, field
 from typing import List
 
 import torch
 
 # NOTE: Edit the following variables to choose initialization, data, model params
-initialize = "resume"
-choose_data = "the_office_gpt2"
-choose_model = "medium"
-new_tokens = 2000
+initialize = "start"
+choose_data = "the_office_char"
+choose_model = "large"
+new_tokens = 5000
 
 # "switch" to select data and name pt and txt files generated
 if choose_data == "the_office_char":
