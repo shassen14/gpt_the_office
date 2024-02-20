@@ -51,5 +51,5 @@ env.bak/
 venv.bak/
 
 # Data stuff
-data/*
+data/*/
 *.pt
